@@ -1,10 +1,10 @@
 # TODO: underscore or camelCase consistency in vars
 
 class TrieNode
-  attr_accessor :children, :endOfWord, :char, :valid_words, :original_path
+  attr_accessor :children, :end_of_word, :char, :valid_words, :original_path
   def initialize(char)
     @children = {}
-    @endOfWord = false
+    @end_of_word = false
     @char = char
     @original_path = []
     # this would be the valid_words in the scrabble class
@@ -15,32 +15,32 @@ class TrieNode
     word.downcase!
     letter = word[0]
     if current_node.children[letter]
-      newNode = current_node.children[letter]
+      new_node = current_node.children[letter]
       if word.length > 1
-        add_word(word[1..-1], newNode)
+        add_word(word[1..-1], new_node)
       end
     else
-      newNode = TrieNode.new(letter)
-      current_node.children[letter] = newNode
+      new_node = TrieNode.new(letter)
+      current_node.children[letter] = new_node
       if word.length > 1
-        add_word(word[1..-1], newNode)
+        add_word(word[1..-1], new_node)
       else
-        newNode.endOfWord = true
+        new_node.end_of_word = true
       end
     end
   end
 
   def wildcard_helper(all_children, node, current_path, word)
     while all_children.length > 0
-      nextNode = all_children.shift
-      newPath = [current_path]
-      newPath.push(nextNode.char)
+      next_node = all_children.shift
+      new_path = [current_path]
+      new_path.push(next_node.char)
       if word.length === 1
-        if nextNode.endOfWord === true
-          @valid_words.push(newPath.join(""))
+        if next_node.end_of_word === true
+          @valid_words.push(new_path.join(""))
         end
       else
-        find_word(word[1..-1], nextNode, newPath)
+        find_word(word[1..-1], next_node, new_path)
       end
     end
   end
@@ -49,14 +49,14 @@ class TrieNode
     word.downcase!
     letter = word[0]
     if current_node.children[letter]
-      nextNode = current_node.children[letter]
-      current_path.push(nextNode.char)
+      next_node = current_node.children[letter]
+      current_path.push(next_node.char)
       if word.length === 1
-        if nextNode.endOfWord === true
+        if next_node.end_of_word === true
           @valid_words.push(current_path.join(""))
         end
       else
-        find_word(word[1..-1], nextNode, current_path)
+        find_word(word[1..-1], next_node, current_path)
       end
 
     end
